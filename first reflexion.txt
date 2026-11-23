@@ -1,1 +1,55 @@
 
+
+
+en tant que : utilisateur je veux afficher la liste de destination pour en selectionner une
+en tant que : utilisateur je veux afficher la liste des TO pour une destination et en selectionner un
+en tant que : utilisateur je peux ecrire une review pour un TO pour informer les autres utilisateurs
+en tant que : utilisateur je peux donner une note pour un TO pour influencer sa moyenne
+
+
+en tant que : administrateur je veux afficher la liste de TO pour les visualiser
+en tant que : administrateur je peux ajouter un TO pour diversifier le choix des utilisateurs
+en tant que : administrateur je peux modifier/supprimer un TO pour garder à jour les TO
+en tant que : administrateur je peux mettre un TO en premium pour afficher une priorité
+
+en tant que : administrateur je veux afficher la liste de destinations pour les visualiser
+en tant que : administrateur je peux ajouter une destination pour diversifier le choix des utilisateurs
+en tant que : administrateur je peux modifier/supprimer une destination pour les garder à jour
+
+
+
+avoir une page administrateur qui renvoi vers 
+    - la gestion des TO 
+    - la gestion des destinations
+ 
+avoir une page admin des TO qui contient :
+    - formulaire d'ajout des TO
+	- La liste des TO avec :
+	    - un bouton "modification" qui fait apparaitre
+		    - un formulaire pour le TO.
+		    - une case de suppression
+		    - un bouton de validation
+		- un bouton "ajout destination" qui fait apparaitre
+		    - une liste de destination
+			- un bouton validation
+		- un bouton "suppression destination" qui fait apparaitre
+		    - une liste de destination
+			- un bouton validation
+		
+ 
+avoir une page admin des destinations qui contient :
+    - formulaire d'ajout des destinations
+	- La liste des TO avec :
+	    - un bouton modification qui fait apparaitre un formulaire pour le TO.
+		- une case de suppression
+		- un bouton de validation
+
+
+
+avoir une page utilisateur qui affiche la liste des destinations.
+
+A la selection de la destination : avoir une page qui affiche la liste des TO associé avec la moyenne des notes.
+A la selection d'un TO afficher : 
+    - un formulaire de review + selection d'une note pour ce TO (et eventuellement désafficher le formulaire de review d'un autre TO déja selectionné.
+	- un lien/bouton vers une page qui affiche pour un TO la liste des reviews
+
