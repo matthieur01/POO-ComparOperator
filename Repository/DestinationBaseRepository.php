@@ -52,10 +52,10 @@ class DestinationBaseRepository{
     }
 
     function createDestinationBase(string $location){
-        $destStmt = $this->db->prepare('INSERT INTO destination_base (ID,location)
-             VALUES (:ID,:location)'
+        $destStmt = $this->db->prepare('INSERT INTO destination_base (location)
+             VALUES (:location)'
              );
-        $destStmt->execute([NULL,'name' => $location]);
+        $destStmt->execute(['location' => $location]);
     }
 
 

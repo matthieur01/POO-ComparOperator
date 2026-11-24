@@ -36,6 +36,53 @@ foreach($_POST as $aa){print_r($_POST);}    }
     <!-- Custom styles for this template -->
     <link href="css/custom.css" rel="stylesheet">
 
+  <style>
+    .table-wrapper {
+      overflow-x: auto; /* Scroll horizontal sur petit écran */
+      margin: 24px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse; /* Fusionne les bordures des cellules */
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+    }
+
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    th, td {
+      border: 1px solid #d1d5db;
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    thead th {
+      background-color: #1f2937;
+      color: #ffffff;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9fafb; /* Lignes alternées */
+    }
+
+    tbody tr:hover {
+      background-color: #f3f4f6;
+    }
+
+    tfoot td {
+      font-weight: bold;
+      background-color: #e5e7eb;
+    }
+  </style>
+</head>
+
+
 </head>
 <body>
     <section>
@@ -65,21 +112,67 @@ foreach($_POST as $aa){print_r($_POST);}    }
         <button type="submit" >Ajouter destination</button>
     </form>
 
-
+<table>
     <?php
 
     $my_DR = new DestinationBaseRepository();
     $my_destinations = $my_DR->getAllDestination();
 
     if ($my_destinations) {
+        echo "<tr>";
+        echo "<td>";
+        echo 'destination  : </td>';
+        echo "</tr>";   
+
         foreach ($my_destinations as $destination) {
-            echo '<P> destination  : ' . $destination->getLocation();
+            echo "<tr>";
+            echo '<td>' . $destination->getLocation();
+            echo "</td>";
+
+            echo "<td>";
+?>
+            <button type="button" id="toggle-btn-<?php echo $destination->getId()?>" aria-expanded="false" aria-controls="mon-formulaire-<?php echo $destination->getId()?>">
+                Modifier cette destination
+            </button>
+
+
+
+
+            <form action="adm_dest.php" method="post" id="mon-formulaire-<?php echo $destination->getId()?>" style="display: none;">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="new-name" required>
+            
+            <button type="submit">Envoyer</button>
+            </form>
+
+            <script>
+            const btn<?php echo $destination->getId()?> = document.getElementById('toggle-btn-<?php echo $destination->getId()?>');
+            const form<?php echo $destination->getId()?> = document.getElementById('mon-formulaire-<?php echo $destination->getId()?>');
+
+            btn<?php echo $destination->getId()?>.addEventListener('click', () => {
+                const isHidden<?php echo $destination->getId()?> = form<?php echo $destination->getId()?>.style.display === 'none';
+                form<?php echo $destination->getId()?>.style.display = isHidden<?php echo $destination->getId()?> ? 'block' : 'none';
+                btn<?php echo $destination->getId()?>.setAttribute('aria-expanded', String(isHidden<?php echo $destination->getId()?>));
+
+            });
+            </script>
+
+
+
+<?php
+
+
+            echo "</td>";
+            echo "</tr>";
+
+
         }
+        
     }else{
         echo '<P> pas de destination renseignée';
     }
 
     ?>
 
-
+</table>
     </section>
