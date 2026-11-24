@@ -1,6 +1,23 @@
 <?php
-include_once(__DIR__ . "/../Classes/Destination.php");
-include_once(__DIR__ . "/../Repository/DestinationRepository.php");
+include_once(__DIR__ . "/../Classes/DestinationBase.php");
+include_once(__DIR__ . "/../Repository/DestinationBaseRepository.php");
+
+
+
+if (isset($_POST["name"])) {
+    echo "ici";
+    $name = $_POST["name"];
+
+    try {
+        $My_DBR = new DestinationBaseRepository();
+        $My_DBR->createDestinationBase($name);
+    } catch (Exception $e) {
+        echo "yop". $e->getMessage() ;
+        }
+}else{echo "la"; 
+foreach($_POST as $aa){print_r($_POST);}    }
+
+
 
 ?>
 
@@ -23,15 +40,40 @@ include_once(__DIR__ . "/../Repository/DestinationRepository.php");
 <body>
     <section>
 
+ <hr>
+
+    <!-- add destination -->
+    <form action="adm_dest.php" method="post" >
+        <p><label for="addAnimal" class="form-label me-3">Ajout d'une destination :</label></p>
+        <p>localisation</p>
+        <p><input type="text" id="nom" name="name" required></p>
+
+
+
+
+<?php
+        // <select class="form-select me-3" name="addAnimal" id="addAnimal">
+        //     <?php foreach ($zoo->getEnclosures() as $enclosure) { ?><?php
+        //         <option value="<?php echo htmlspecialchars($enclosure->getName()); ">
+        //             <?php echo htmlspecialchars($enclosure->getName()); ?><?php
+        //         </option>
+        //     <?php } ?><?php
+        // </select>
+
+?>
+
+        <button type="submit" >Ajouter destination</button>
+    </form>
+
 
     <?php
 
-    $my_DR = new DestinationRepository();
+    $my_DR = new DestinationBaseRepository();
     $my_destinations = $my_DR->getAllDestination();
 
     if ($my_destinations) {
         foreach ($my_destinations as $destination) {
-            echo '<P> destination  : ' . $destination->location;
+            echo '<P> destination  : ' . $destination->getLocation();
         }
     }else{
         echo '<P> pas de destination renseignée';
@@ -41,7 +83,3 @@ include_once(__DIR__ . "/../Repository/DestinationRepository.php");
 
 
     </section>
-<body>
-
-
-
