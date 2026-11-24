@@ -1,5 +1,5 @@
 <?php
-
+//TODO    -   a faired 
 class   Manager{
     
     private PDO $bdd;

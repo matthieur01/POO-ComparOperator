@@ -4,7 +4,7 @@ include_once(__DIR__ . "/../Classes/Destination.php");
 
 class DestinationMapper{
 
-    public function hydrate(array $data ) : Destination{
+    static public function hydrate(array $data ) : Destination{
         $my_destination = new Destination((int) $data['id'],
          (string)$data['location'],
           (int)$data['price'],
