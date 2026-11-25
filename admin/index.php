@@ -36,6 +36,8 @@ elseif (isset($_GET[""])){
 
     <P><a href="adm_dest.php"> Gérer les Associations 'Opérateurs/Destinations' </a>
 
+    <P><a href="../index.php"> retour à l'accueuil </a>
+
 
     </section>
 <body>

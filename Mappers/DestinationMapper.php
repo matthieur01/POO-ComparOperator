@@ -8,7 +8,8 @@ class DestinationMapper{
         $my_destination = new Destination((int) $data['id'],
          (string)$data['location'],
           (int)$data['price'],
-           (int)$data['tourOperatorId']);
+           (int)$data['tour_operator_id'],
+           (int)$data['id_dest_base']);
         
         return $my_destination;  
     }

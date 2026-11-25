@@ -14,7 +14,7 @@ class DestinationRepository{
 
     public function __construct(){
         $this->db = Database::getConnection();
-        $this->destination = new Destination(0,'',0,0);
+        $this->destination = new Destination(0,'',0,0,0);
     }
 
 
@@ -34,14 +34,14 @@ class DestinationRepository{
     }
 
 
-    function getAllDestination(): array{
+    function getAllDestinationByTO(int $idTO): array{
 
-        $empStmt = $this->db->prepare('SELECT * FROM destination');
-        $empStmt->execute();
-        $empRow = $empStmt->fetch();
+        $destStmt = $this->db->prepare('SELECT * FROM destination WHERE tour_operator_id = :id');
+        $destStmt->execute(['id'=> $idTO]);
+        $destRow = $destStmt->fetch();
 
-        if ($empRow) {
-            foreach ($empRow as $row) {
+        if ($destRow) {
+            foreach ($destRow as $row) {
                 $this->destinations[] = DestinationMapper::hydrate($row);
             }
 
@@ -51,7 +51,31 @@ class DestinationRepository{
 
     }
 
+   function createDestination(string $location, int $idTO, int $idDest, int $cost){
 
+
+        $destStmt = $this->db->prepare('INSERT INTO destination (location, price, tour_operator_id, id_dest_base)
+             VALUES (:location, :price, :tour_operator_id, :id_dest_base)'
+             );
+        $destStmt->execute([
+            'location' => $location,
+            'price'=> $idTO, 
+            'tour_operator_id'=> $idDest, 
+            'id_dest_base'=> (int) $cost]);
+    }
+
+    function suppressDest(int $id){
+        $destStmt = $this->db->prepare('DELETE FROM destination WHERE id = :id');
+        $destStmt->execute(['id' => $id]);
+    }
+
+    function editDestination(int $id, int $cost){
+        $destStmt = $this->db->prepare('UPDATE  destination 
+                                                SET price = :price
+                                                 WHERE id = :id'
+             );
+        $destStmt->execute(['id' =>$id, 'price' => $cost]);
+    }
 
 
 }

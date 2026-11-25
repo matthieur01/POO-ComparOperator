@@ -18,6 +18,23 @@ class TourOperatorRepository{
     }
 
 
+    function getOneTOById(int $id): TourOperator{
+
+        $toStmt = $this->db->prepare('SELECT * FROM tour_operator WHERE id = :id');
+        $toStmt->execute( [ 'id' => $id ] );
+        $totRow = $toStmt->fetch();
+
+        if ($totRow) {
+
+            $this->tourOperator = TourOperatorMapper::hydrate($totRow);
+        
+        }
+
+        return $this->tourOperator;
+
+    }
+
+
 
     function getAllTO(): array{
 
@@ -48,5 +65,19 @@ class TourOperatorRepository{
             'isPremium'=> $isPremium]);
     }
 
+    function suppressTourOperator(int $id){
+        $destStmt = $this->db->prepare('DELETE FROM tour_operator WHERE id = :id');
+        $destStmt->execute(['id' => $id]);
+    }
+
+    function editTourOperator(int $id, string $name, string $link, bool $isPremium){
+        $destStmt = $this->db->prepare('UPDATE  tour_operator 
+                                                SET name = :name,
+                                                    link = :link,
+                                                    is_premium = :isPremium
+                                                 WHERE id = :id'
+             );
+        $destStmt->execute(['id' =>$id, 'name' => $name, 'link' => $link, 'isPremium'=>  $isPremium]);
+    }
 
 }

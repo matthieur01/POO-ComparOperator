@@ -27,6 +27,12 @@ if (isset($_POST["new-name"])) {
 
   $id = $_POST["ch-id"];
   $new_name = $_POST["new-name"];
+  $new_web = $_POST["new-web"];
+  $new_premium = false;
+  if (isset($_POST["new-premium"])){
+        $new_premium = true;
+    }
+
   if (isset($_POST["suppression"])) {
     try {
       $My_DBR = new TourOperatorRepository();
@@ -37,11 +43,9 @@ if (isset($_POST["new-name"])) {
     }
 
   } else {
-    
-
     try {
       $My_DBR = new TourOperatorRepository();
-      $My_DBR->editTourOperator($id, $new_name);
+      $My_DBR->editTourOperator($id, $new_name, $new_web, $new_premium);
       echo "Modification de la destination : ".$new_name.", id : ".$id." effectué <br>";
     } catch (Exception $e) {
       echo "yop". $e->getMessage() ;
@@ -188,9 +192,14 @@ if (isset($_POST["new-name"])) {
 
 
             <form action="adm_TO.php" method="post" id="mon-formulaire-<?php echo $TourOperator->getId()?>" style="display: none;">
-            <label for="nom">Nouveau nom :</label>
             <input type="text" id="ch-id" name="ch-id" value="<?php echo $TourOperator->getId()?>" style="display: none;">
+            <label for="nom">Nouveau nom :</label>
             <input type="text" id="nom" name="new-name">
+            <label for="nom">Nouveau web :</label>
+            <input type="text" id="web" name="new-web">
+            <label for="nom">Nouveau premium :</label>
+            <input type="checkbox" id="chk_premium" name="new-premium">
+            <label for="nom">supression (irreversible)</label>
             <input type="checkbox" id="check" name="suppression">
             
             <button type="submit">Envoyer</button>
@@ -220,7 +229,7 @@ if (isset($_POST["new-name"])) {
         }
         
     }else{
-        echo '<P> Pas de destination renseignée';
+        echo '<P> Pas de Tour opérateur de renseigné';
     }
 
     ?>

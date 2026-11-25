@@ -1,18 +1,20 @@
 <?php 
 
 class Destination{
-    // TODO  - a faire
+
     private int $id;
     private string $location;
     private int $price;
     private int $tourOperatorId;
+    private int $idDestBase;
 
-    public function __construct(int $id, string $location, int $price, int $tourOperatorId)
+    public function __construct(int $id, string $location, int $price, int $tourOperatorId, int $idDestBase)
     {
         $this->id = $id;
         $this->location = $location;
         $this->price = $price;
         $this->tourOperatorId = $tourOperatorId;
+        $this->idDestBase = $idDestBase;
 
     }
 
@@ -30,6 +32,9 @@ class Destination{
 
     public function gettouroperatorId(): int{
         return $this->tourOperatorId;
+    }
+    public function getIdDestBase(): int{
+        return $this->idDestBase;
     }
 
 }

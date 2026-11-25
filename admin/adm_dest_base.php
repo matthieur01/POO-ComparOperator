@@ -171,9 +171,10 @@ if (isset($_POST["new-name"])) {
 
 
             <form action="adm_dest.php" method="post" id="mon-formulaire-<?php echo $destination->getId()?>" style="display: none;">
-            <label for="nom">Nouveau nom :</label>
             <input type="text" id="ch-id" name="ch-id" value="<?php echo $destination->getId()?>" style="display: none;">
+            <label for="nom">Nouveau nom :</label>
             <input type="text" id="nom" name="new-name">
+            <label for="nom">Suppression :</label>
             <input type="checkbox" id="check" name="suppression">
             
             <button type="submit">Envoyer</button>
