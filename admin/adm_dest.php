@@ -5,7 +5,7 @@ include_once(__DIR__ . "/../Repository/DestinationBaseRepository.php");
 
 
 if (isset($_POST["name"])) {
-    echo "ici";
+
     $name = $_POST["name"];
 
     try {
@@ -13,9 +13,42 @@ if (isset($_POST["name"])) {
         $My_DBR->createDestinationBase($name);
     } catch (Exception $e) {
         echo "yop". $e->getMessage() ;
-        }
-}else{echo "la"; 
+    }
+}else{
+
+
 foreach($_POST as $aa){print_r($_POST);}    }
+
+
+if (isset($_POST["new-name"])) {
+
+  $id = $_POST["ch-id"];
+  $new_name = $_POST["new-name"];
+  if (isset($_POST["suppression"])) {
+    try {
+      $My_DBR = new DestinationBaseRepository();
+      $My_DBR->suppressDestinationBase($id);
+      echo "Suppression de la destination : ".$new_name.", id : ".$id." effectué <br>";
+    } catch (Exception $e) {
+        echo "yop". $e->getMessage() ;
+    }
+
+  } else {
+    
+
+    try {
+      $My_DBR = new DestinationBaseRepository();
+      $My_DBR->editDestinationBase($id, $new_name);
+      echo "Modification de la destination : ".$new_name.", id : ".$id." effectué <br>";
+    } catch (Exception $e) {
+      echo "yop". $e->getMessage() ;
+    }
+  }
+}
+
+
+
+
 
 
 
@@ -85,6 +118,8 @@ foreach($_POST as $aa){print_r($_POST);}    }
 
 </head>
 <body>
+<P><a href="Index.php"> retour </a>
+
     <section>
 
  <hr>
@@ -139,8 +174,10 @@ foreach($_POST as $aa){print_r($_POST);}    }
 
 
             <form action="adm_dest.php" method="post" id="mon-formulaire-<?php echo $destination->getId()?>" style="display: none;">
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="new-name" required>
+            <label for="nom">Nouveau nom :</label>
+            <input type="text" id="ch-id" name="ch-id" value="<?php echo $destination->getId()?>" style="display: none;">
+            <input type="text" id="nom" name="new-name">
+            <input type="checkbox" id="check" name="suppression">
             
             <button type="submit">Envoyer</button>
             </form>
@@ -169,7 +206,7 @@ foreach($_POST as $aa){print_r($_POST);}    }
         }
         
     }else{
-        echo '<P> pas de destination renseignée';
+        echo '<P> Pas de destination renseignée';
     }
 
     ?>

@@ -30,9 +30,11 @@ elseif (isset($_GET[""])){
 <body>
     <section>
 
-    <P><a href="adm_dest.php"> Gérer les destinations </a>
+    <P><a href="adm_dest_base.php"> Gérer les destinations </a>
 
     <P><a href="adm_TO.php"> Gerer les Tours opérateurs</a>
+
+    <P><a href="adm_dest.php"> Gérer les Associations 'Opérateurs/Destinations' </a>
 
 
     </section>

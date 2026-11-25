@@ -58,7 +58,16 @@ class DestinationBaseRepository{
         $destStmt->execute(['location' => $location]);
     }
 
+    function suppressDestinationBase(int $id){
+        $destStmt = $this->db->prepare('DELETE FROM destination_base WHERE id = :id');
+        $destStmt->execute(['id' => $id]);
+    }
 
+    function editDestinationBase(int $id, string $location){
+        $destStmt = $this->db->prepare('UPDATE  destination_base SET location = :location WHERE id = :id'
+             );
+        $destStmt->execute(['id' =>$id, 'location' => $location]);
+    }
 
 
 }

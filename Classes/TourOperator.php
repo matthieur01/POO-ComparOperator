@@ -14,7 +14,7 @@ class TourOperator{
         $this->link = $link;
         $this->gradeCount = $gradeCount;
         $this->gradeTotal = $gradeTotal;
-        $this->$isPremium = $isPremium;
+        $this->isPremium = $isPremium;
     }
 
     public function getId(): int{
@@ -37,7 +37,11 @@ class TourOperator{
     }
     
     public function getGrade(): string{
-        return  number_format($this->gradeTotal / $this->gradeCount, 1, ',', '');
+        if ($this->getGradeCount() > 0) {
+            return  number_format($this->gradeTotal / $this->gradeCount, 1, ',', '');
+        } else {
+            return 0;
+        }
     }
 
     public function getPremium(): bool{
