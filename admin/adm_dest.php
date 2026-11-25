@@ -6,9 +6,7 @@ include_once(__DIR__ . "/../Repository/DestinationBaseRepository.php");
 include_once(__DIR__ . "/../Classes/TourOperator.php");
 include_once(__DIR__ . "/../Repository/TourOperatorRepository.php");
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
+
 
 if (!isset($_POST["id_TO"])) {
 // si on arrive sur cette page sans avoir selectionné un Tour opérateur
@@ -36,6 +34,24 @@ if (!isset($_POST["id_TO"])) {
 <?php
 
 } else {
+
+  $my_TOR = new TourOperatorRepository();
+  $my_TORs = $my_TOR->getAllTO();
+?>
+  <form method="post" action="adm_dest.php">
+        <P align="center">Changer de tour operateur:</p>
+        <select name="id_TO" id="id_TO">
+            <optgroup label="Choisir un tour operateur">
+              <?php
+                foreach ($my_TORs as $myTO) {
+                  echo '<option value="'.$myTO->getId().'" name="'.$myTO->getname().'"> '.$myTO->getname().' </option>';
+                }
+              ?>
+            </optgroup>
+        </select>
+        <input type="submit" name= "valider " value="Valider" />
+    </form>
+  <?php
 // si on arrive sur cette page avec un Tour opérateur
 //====================================================================================
 
@@ -52,8 +68,8 @@ if (!isset($_POST["id_TO"])) {
         $idDest = $_POST["id_Dest"];
         $cost = $_POST["Prix"];
 
-        $my_DR = new DestinationRepository();
-        $my_destination = $my_DR->getOneDestination($idTO);
+        $my_DBR = new DestinationBaseRepository();
+        $my_destination = $my_DBR->getOneDestination($idDest);
 
 
         $my_DestR = new DestinationRepository();
@@ -63,35 +79,32 @@ if (!isset($_POST["id_TO"])) {
       }else{
 
 
-      foreach($_POST as $aa){print_r($_POST);}    }
+        if (isset($_POST["new-cost"])) {
 
+          $id = $_POST["ch-id"];
+          $new_cost = $_POST["new-cost"];
+          if (isset($_POST["suppression"])) {
+            try {
+              $My_DestR = new DestinationRepository();
+              $My_DestR->suppressDest($id);
+              echo "Suppression de la destination :  id : ".$id." effectué <br>";
+            } catch (Exception $e) {
+                echo "yop". $e->getMessage() ;
+            }
 
-      if (isset($_POST["new-cost"])) {
+          } else {
+            
 
-        $id = $_POST["ch-id"];
-        $new_cost = $_POST["new-cost"];
-        if (isset($_POST["suppression"])) {
-          try {
-            $My_DestR = new DestinationRepository();
-            $My_DestR->suppressDest($id);
-            echo "Suppression de la destination :  id : ".$id." effectué <br>";
-          } catch (Exception $e) {
+            try {
+              $My_DestR = new DestinationRepository();
+              $My_DestR->editDestination($id, $new_cost);
+              echo "Modification de la destination : ".$new_cost.", id : ".$id." effectué <br>";
+            } catch (Exception $e) {
               echo "yop". $e->getMessage() ;
-          }
-
-        } else {
-          
-
-          try {
-            $My_DestR = new DestinationRepository();
-            $My_DestR->editDestination($id, $new_cost);
-            echo "Modification de la destination : ".$new_cost.", id : ".$id." effectué <br>";
-          } catch (Exception $e) {
-            echo "yop". $e->getMessage() ;
+            }
           }
         }
       }
-
 
 
 
@@ -180,7 +193,7 @@ if (!isset($_POST["id_TO"])) {
   <form method="post" action="adm_dest.php">
       
       <input type="text" id="id_TO" name="id_TO" value="<?php echo $idTO // renvoi l'id du TO en cours ?>" style="display: none;">
-      <label for="nom">Destination :</label>
+      <label for="nom">Ajouter un destination destination :</label>
       <select name="id_Dest" id="id_1dest">
           <optgroup label="Choisir une destination">
             <?php
@@ -211,11 +224,15 @@ if (!isset($_POST["id_TO"])) {
           echo "<tr>";
           echo "<td>";
           echo 'Destinations pour  : '.$my_TO->getName().'</td>';
+          echo "<td>";
+          echo 'Prix';
           echo "</tr>";   
 
           foreach ($my_destinations as $destination) {
               echo "<tr>";
               echo '<td>' . $destination->getLocation();
+              echo "</td>";
+              echo '<td>' . $destination->getPrice();
               echo "</td>";
 
               echo "<td>";
@@ -228,7 +245,8 @@ if (!isset($_POST["id_TO"])) {
 
 
               <form action="adm_dest.php" method="post" id="mon-formulaire-<?php echo $destination->getId()?>" style="display: none;">
-                <label for="nom">Nouveau nom :</label>
+                <input type="text" id="id_TO" name="id_TO" value="<?php echo $idTO // renvoi l'id du TO en cours ?>" style="display: none;">
+                <label for="nom">Nouveau Prix :</label>
                 <input type="text" id="ch-id" name="ch-id" value="<?php echo $destination->getId()?>" style="display: none;">
                 <input type="text" id="nom" name="new-cost">
                 <input type="checkbox" id="check" name="suppression">

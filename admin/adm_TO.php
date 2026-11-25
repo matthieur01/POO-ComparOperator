@@ -170,6 +170,12 @@ if (isset($_POST["new-name"])) {
         foreach ($my_TOs as $TourOperator) {
             echo "<tr>";
             echo '<td>' . $TourOperator->getName();
+            ?>
+                <form method="post" action="adm_dest.php">
+                    <input type="text" id="id_TO" name="id_TO" value="<?php echo $TourOperator->getId() // renvoi l'id du TO en cours ?>" style="display: none;">
+                    <input type="submit" name= "valider" value="Gerer les destinations" />
+                </form>
+            <?php
             echo "</td>";
             echo '<td>' . $TourOperator->getLink();
             echo "</td>";

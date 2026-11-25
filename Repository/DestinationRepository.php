@@ -38,7 +38,7 @@ class DestinationRepository{
 
         $destStmt = $this->db->prepare('SELECT * FROM destination WHERE tour_operator_id = :id');
         $destStmt->execute(['id'=> $idTO]);
-        $destRow = $destStmt->fetch();
+        $destRow = $destStmt->fetchAll();
 
         if ($destRow) {
             foreach ($destRow as $row) {
@@ -59,9 +59,9 @@ class DestinationRepository{
              );
         $destStmt->execute([
             'location' => $location,
-            'price'=> $idTO, 
-            'tour_operator_id'=> $idDest, 
-            'id_dest_base'=> (int) $cost]);
+            'price'=> (int) $cost, 
+            'tour_operator_id'=> $idTO, 
+            'id_dest_base'=> $idDest]);
     }
 
     function suppressDest(int $id){
