@@ -1,5 +1,7 @@
 <?php
 
+include_once(__DIR__ . "/../Classes/Review.php");
+include_once(__DIR__ . "/../Repository/ReviewRepository.php");
 include_once(__DIR__ . "/../Classes/Destination.php");
 include_once(__DIR__ . "/../Repository/DestinationRepository.php");
 include_once(__DIR__ . "/../Classes/DestinationBase.php");
@@ -95,6 +97,8 @@ if (isset($_POST["id_Dest"])) {
     
     $my_DestR = new DestinationRepository() ;
     $my_Dests = $my_DestR->getAllTObyDest($idDest) ;
+    $msgError = "";
+
 
     if ($my_Dests) {
 
@@ -104,17 +108,27 @@ if (isset($_POST["id_Dest"])) {
             $idTOCom = (int) $_POST["id_TO"];
             $comName = $_POST["com_name"];
             $comCom = $_POST["com_com"];
-            $comGrade = $_POST["com_grade"];
+            $comGrade = (int) $_POST["com_grade"];
 
+            $my_RevR = new ReviewRepository();
+            if ($my_RevR->canCommentForTO($comName,$idTOCom)) {
+                try{
+                    $my_RevR->addReview($comName,$comCom,$idTOCom);
+                    $my_TOR = new TourOperatorRepository();
+                    $my_TOR->addGrade($idTOCom,$comGrade);
 
-            
+                }catch(Exception $e){
+                    $msgError .= $e->getMessage();
+                }
 
+            } else {
 
-
+                $msgError .= "Un seul commentaire par utilisateur possible !";
+            }
 
         }
 
-
+echo $msgError;
 
 
 
@@ -130,7 +144,7 @@ if (isset($_POST["id_Dest"])) {
             $my_TOR = new TourOperatorRepository() ;
             $my_TO = $my_TOR->getOneTOById($my_Dest->getTourOperatorId()) ;
             echo "<td>";
-            echo $my_TO->getName();
+            echo $my_TO->getName(). ' Avec un note moyenne : '.$my_TO->getGrade().' (nb de vote : '.$my_TO->getGradeCount().')';
             echo "</td>";
 
             echo '<td> Au prix de : </td>';

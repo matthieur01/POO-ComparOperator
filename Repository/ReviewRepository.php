@@ -11,14 +11,13 @@ class ReviewRepository{
     private array $reviews = [];
 
 
-    public function __construct(PDO $db, Review $review){
+    public function __construct(){
         $this->db = Database::getConnection();
         $this->review = new Review(0,'','',0);
     }
 
 
     public function getReviewsByTO(int $idTO): array {
-
 
         $revStmt = $this->db->prepare('SELECT * FROM review WHERE tour_operator_id = :tour_operator_id');
         $revStmt->execute(['tour_operator_id' => $idTO]);
@@ -36,6 +35,17 @@ class ReviewRepository{
 
     public function canCommentForTO(string $name, int $idTO):Bool{
         $cancomment = false;
+
+        $revStmt = $this->db->prepare('SELECT * FROM review WHERE tour_operator_id = :tour_operator_id AND author = :author');
+        $revStmt->execute(['tour_operator_id' => $idTO,
+                            'author' => $name]);
+        $revRow = $revStmt->fetchAll();
+
+        /// si pas de review trouver, on peut en mettre une à ce nom. (une seule reviw possible par auteur/TO)
+        if (!$revRow) {
+            $cancomment = true;
+        }
+
 
         return $cancomment;
 
