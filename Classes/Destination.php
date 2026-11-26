@@ -30,7 +30,7 @@ class Destination{
         return $this->price;
     }
 
-    public function gettouroperatorId(): int{
+    public function getTourOperatorId(): int{
         return $this->tourOperatorId;
     }
     public function getIdDestBase(): int{

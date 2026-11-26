@@ -1,7 +1,4 @@
-<?php
-include(__DIR__ . "/user/visu_destinations.php");
 
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,3 +26,8 @@ include(__DIR__ . "/user/visu_destinations.php");
 
     </section>
 <body>
+
+<?php
+include(__DIR__ . "/user/visu_destinations.php");
+
+?>

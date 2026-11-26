@@ -11,6 +11,7 @@ class DestinationRepository{
     private PDO $db;
     private Destination $destination;
     private array $destinations = [];
+    private array $toursOperator = [];
 
     public function __construct(){
         $this->db = Database::getConnection();
@@ -50,6 +51,25 @@ class DestinationRepository{
         return $this->destinations;
 
     }
+
+    function getAllTObyDest(int $idDest): array{
+
+        $toStmt = $this->db->prepare('SELECT * FROM destination WHERE id_dest_base = :idDest');
+        $toStmt->execute(['idDest' => $idDest]);
+        $totRow = $toStmt->fetchAll();
+
+        if ($totRow) {
+            foreach ($totRow as $row) {
+                $this->toursOperator[] = DestinationMapper::hydrate($row);
+            }
+
+        }
+
+        return $this->toursOperator;
+
+    }
+
+
 
    function createDestination(string $location, int $idTO, int $idDest, int $cost){
 

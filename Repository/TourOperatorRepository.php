@@ -53,6 +53,9 @@ class TourOperatorRepository{
 
     }
 
+
+
+
     function createTourOperator(string $name, string $link, bool $isPremium){
         $destStmt = $this->db->prepare('INSERT INTO tour_operator (name, link, grade_count, grade_total, is_premium)
              VALUES (:name, :link, :grade_c, :grade_t, :isPremium)'
