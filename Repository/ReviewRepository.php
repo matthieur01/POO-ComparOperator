@@ -34,7 +34,7 @@ class ReviewRepository{
     }
 
     public function canCommentForTO(string $name, int $idTO):Bool{
-        $cancomment = false;
+        $canComment = false;
 
         $revStmt = $this->db->prepare('SELECT * FROM review WHERE tour_operator_id = :tour_operator_id AND author = :author');
         $revStmt->execute(['tour_operator_id' => $idTO,
@@ -43,11 +43,11 @@ class ReviewRepository{
 
         /// si pas de review trouver, on peut en mettre une à ce nom. (une seule reviw possible par auteur/TO)
         if (!$revRow) {
-            $cancomment = true;
+            $canComment = true;
         }
 
 
-        return $cancomment;
+        return $canComment;
 
     }
 

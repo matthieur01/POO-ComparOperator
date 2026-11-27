@@ -9,9 +9,6 @@ include_once(__DIR__ . "/../Repository/DestinationBaseRepository.php");
 include_once(__DIR__ . "/../Classes/TourOperator.php");
 include_once(__DIR__ . "/../Repository/TourOperatorRepository.php");
 
-echo '<pre>';
-print_r($_POST);
-echo '</pre>';
 
 ?>
 
@@ -140,6 +137,7 @@ echo $msgError;
         foreach ($my_Dests as $my_Dest) {
 
             echo "<tr>";
+
 
             $my_TOR = new TourOperatorRepository() ;
             $my_TO = $my_TOR->getOneTOById($my_Dest->getTourOperatorId()) ;
